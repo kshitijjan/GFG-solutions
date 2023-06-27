@@ -105,25 +105,28 @@ struct Node
 
 class Solution {
 public:
-    void traverseLeft(Node* root, vector<int> &ans) {
-        //base case
-        if( (root == NULL) || (root->left == NULL && root->right == NULL) )
-            return ;
-            
+    void traverseLeft(Node* root, vector<int> &ans){
+        
+        //Only left part not including leaf nodes
+        if((root == NULL) || (root->left == NULL && root->right == NULL))
+            return;
+        
         ans.push_back(root->data);
         if(root->left)
             traverseLeft(root->left, ans);
         else
             traverseLeft(root->right, ans);
             
-    }
+        
     
-    void traverseLeaf(Node* root, vector<int> &ans) {
-        //base case
+    }
+    void traverseLeaf(Node* root, vector<int> &ans){
+        
+        //Basically inorder traversal
         if(root == NULL)
-            return ;
+            return;
             
-        if(root->left == NULL && root->right == NULL) {
+        if(root->left == NULL && root->right == NULL){
             ans.push_back(root->data);
             return;
         }
@@ -132,45 +135,41 @@ public:
         traverseLeaf(root->right, ans);
         
     }
-    
-    void traverseRight(Node* root, vector<int> &ans) {
-        //base case
-        if( (root == NULL) || (root->left == NULL && root->right == NULL) )
-            return ;
+    void traverseRight(Node* root, vector<int> &ans){
         
+        //Only right part not including leaf nodes
+        if((root == NULL) || (root->left == NULL && root->right == NULL))
+            return;
+            
         if(root->right)
             traverseRight(root->right, ans);
         else
             traverseRight(root->left, ans);
             
-        //wapas aagye
         ans.push_back(root->data);
-            
     }
-    
     vector <int> boundary(Node *root)
     {
         vector<int> ans;
-        if(root == NULL)
+        if(root == NULL){
             return ans;
-            
+        }
+        
+        //First push root node
         ans.push_back(root->data);
         
-        //left part print/store
+        //Traverse Left and push all left nodes
         traverseLeft(root->left, ans);
         
-        //traverse Leaf Nodes
-        
-        //left subtree
+        //Traverse Leaf Node for left subtree
         traverseLeaf(root->left, ans);
-        //right subtree
+        //Traverse Leaf Node for right subtree
         traverseLeaf(root->right, ans);
         
-        //traverse right part
+        //Traverse Right and push all right nodes
         traverseRight(root->right, ans);
         
         return ans;
-        
         
     }
 };
